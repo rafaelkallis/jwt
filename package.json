@@ -1,0 +1,19 @@
+{
+  "name": "@rk/jwt",
+  "version": "1.0.0",
+  "description": "json web tokens you can trust",
+  "author": "Rafael Kallis <rk@rafaelkallis.com>",
+  "license": "MIT",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rafaelkallis/jwt.git"
+  },
+  "bugs": {
+    "url": "https://github.com/rafaelkallis/jwt/issues"
+  },
+  "homepage": "https://github.com/rafaelkallis/jwt#readme",
+  "dependencies": {
+    "node-jose": "^1.0.0"
+  }
+}
