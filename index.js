@@ -48,6 +48,7 @@ class JWT {
       .update(Buffer.from(JSON.stringify(payload), 'utf8'))
       .final();
     debug('signed: %s', token);
+    return token;
   }
   
   /**
@@ -91,7 +92,7 @@ class JWT {
   async decrypt (token) {
     debug('decrypting: %s', token);
     let { payload } = await jose.JWE
-      .createDecrypt(await jwk)
+      .createDecrypt(await this.jwk)
       .decrypt(token);
     payload =  JSON.parse(payload.toString('utf8'));
     debug('decrypted payload: %j', payload);
