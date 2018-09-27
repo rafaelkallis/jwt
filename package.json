@@ -14,6 +14,8 @@
   },
   "homepage": "https://github.com/rafaelkallis/jwt#readme",
   "dependencies": {
+    "debug": "^4.0.1",
+    "invariant": "^2.2.4",
     "node-jose": "^1.0.0"
   }
 }

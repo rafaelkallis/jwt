@@ -7,10 +7,17 @@
 'use strict';
 
 const jose = require('node-jose');
+const invariant = require('invariant');
+const debug = require('debug')('@rk/jwt')
 
 class JWT {
 
   constructor(secret) {
+    invariant(
+      secret.length >= 32, 
+      'jwt secret must be at least 32 characters long',
+    );
+
     /**
      * json web key (JWK)
      *
@@ -24,6 +31,7 @@ class JWT {
       kty: 'oct',
       k: jose.util.base64url.encode(secret),
     });
+    debug('created JWT instance');
   }
 
   /**
@@ -34,10 +42,12 @@ class JWT {
    * @return {Promise<string>} - A signed json web token.
    */
   async sign(payload, opts = { format: 'compact' }) {
-    return jose.JWS
+    debug('signing: %j', payload);
+    const token = await jose.JWS
       .createSign(opts, await this.jwk)
       .update(Buffer.from(JSON.stringify(payload), 'utf8'))
       .final();
+    debug('signed: %s', token);
   }
   
   /**
@@ -47,10 +57,13 @@ class JWT {
    * @return {Promise<Object>} - The decoded payload.
    */
   async verifySignature (token) {
-    const { payload } = await jose.JWS
+    debug('verifying signature: %s', token);
+    let { payload } = await jose.JWS
       .createVerify(await this.jwk)
       .verify(token);
-    return JSON.parse(payload.toString('utf8'));
+    payload = JSON.parse(payload.toString('utf8'));
+    debug('decoded payload: %j', payload);
+    return payload;
   };
   
   /**
@@ -60,10 +73,13 @@ class JWT {
    * @return {Promise<string>} - An encrypted json web token.
    */
   async encrypt (payload, opts = { format: 'compact' }) {
-    return jose.JWE
+    debug('encrypting: %j', payload);
+    const token = await jose.JWE
       .createEncrypt(opts, await this.jwk)
       .update(Buffer.from(JSON.stringify(payload)))
       .final();
+    debug('encrypted token: %s', token);
+    return token;
   };
   
   /**
@@ -73,10 +89,13 @@ class JWT {
    * @return {Promise<Object>} - The decrypted payload.
    */
   async decrypt (token) {
-    const { payload } = await jose.JWE
+    debug('decrypting: %s', token);
+    let { payload } = await jose.JWE
       .createDecrypt(await jwk)
       .decrypt(token);
-    return JSON.parse(payload.toString('utf8'));
+    payload =  JSON.parse(payload.toString('utf8'));
+    debug('decrypted payload: %j', payload);
+    return payload;
   };
 }
 
