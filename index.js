@@ -14,6 +14,10 @@ class JWT {
 
   constructor(secret) {
     invariant(
+      typeof secret === 'string',
+      'jwt secret must be a string',
+    );
+    invariant(
       secret.length >= 32, 
       'jwt secret must be at least 32 characters long',
     );
@@ -53,11 +57,11 @@ class JWT {
   
   /**
    * Verifies the given JWS and returns the decoded payload.
-   * Rejects if  signature is invalid.
+   * Rejects if the signature is invalid.
    * @param {string} token - The json web token.
    * @return {Promise<Object>} - The decoded payload.
    */
-  async verifySignature (token) {
+  async verify(token) {
     debug('verifying signature: %s', token);
     let { payload } = await jose.JWS
       .createVerify(await this.jwk)

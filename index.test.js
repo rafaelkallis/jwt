@@ -10,23 +10,23 @@ describe("JWT", () => {
   let jwt;
 
   beforeEach(() => {
-    jwt = new JWT('1234566789 123456789 123456789 12');
+    jwt = new JWT('123456789 123456789 123456789 12');
   });
 
   it('should fail to instantiate on keys with < 32 chars', () => {
-    jwt = new JWT('1234566789 123456789 123456789 1');
+    expect(() => new JWT('123456789 123456789 123456789 1')).toThrow();
   });
 
   it('should sign the payload', async () => {
     expect(await jwt.sign({ sub: 123 })).toEqual(
-      'eyJhbGciOiJIUzI1NiIsImtpZCI6InRwelpDdDNVNzU3RVltbE9GUmQzSkltMk10OUY3cTFncFZ3YlhGWV9nOEEifQ.eyJzdWIiOjEyM30.UuQHsTbDBFAB5KVtYaI7KrFw5UhlrITWn2NLEUe2ruM',
+      'eyJhbGciOiJIUzI1NiIsImtpZCI6Im5jazZVRHlYM19wdnpwSldZQW1QQjdrMG5XdjhhdkhRak83cU5laHBWZVkifQ.eyJzdWIiOjEyM30.a4RXENt60jgscVslIHj-5ybKX4MEe3ZSEuHzC9Suwec',
     );
   });
 
   it('should verify the token signature', async () => {
     expect(
-      await jwt.verifySignature(
-        'eyJhbGciOiJIUzI1NiIsImtpZCI6InRwelpDdDNVNzU3RVltbE9GUmQzSkltMk10OUY3cTFncFZ3YlhGWV9nOEEifQ.eyJzdWIiOjEyM30.UuQHsTbDBFAB5KVtYaI7KrFw5UhlrITWn2NLEUe2ruM',
+      await jwt.verify(
+        'eyJhbGciOiJIUzI1NiIsImtpZCI6Im5jazZVRHlYM19wdnpwSldZQW1QQjdrMG5XdjhhdkhRak83cU5laHBWZVkifQ.eyJzdWIiOjEyM30.a4RXENt60jgscVslIHj-5ybKX4MEe3ZSEuHzC9Suwec',
       ),
     ).toEqual({ sub: 123 });
   });
@@ -38,7 +38,7 @@ describe("JWT", () => {
   it('should decrypt the token', async () => {
     expect(
       await jwt.decrypt(
-        'eyJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwiYWxnIjoiUEJFUzItSFMyNTYrQTEyOEtXIiwia2lkIjoidHB6WkN0M1U3NTdFWW1sT0ZSZDNKSW0yTXQ5RjdxMWdwVndiWEZZX2c4QSIsInAycyI6Imh5S3NMMVFiWmVTckF0d3lCNGJqZlEiLCJwMmMiOjgxOTJ9.vmHqPCDewFPwNs7GXIzNGjCr5PbFjCj58mkaPfZ9nG-tHM--OA3Qfw.8C94R_jzCjBC8C4ojf-Pug.dXVjfmWUNDWh5J0XlWEjqA.iPGFV13z6dlvKAdbvgLCdQ',
+        'eyJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwiYWxnIjoiQTI1NktXIiwia2lkIjoibmNrNlVEeVgzX3B2enBKV1lBbVBCN2swbld2OGF2SFFqTzdxTmVocFZlWSJ9.gtQ54_Q0pKl_EekcT3I5_FZwj7jY9DGa90ntwbkJYgrHz3qiavAWvA.WGW4A-I6GaGAFKZITPUPUA.drPFMAoPzCT2NRc5lnQvXw.HApW_eJRQVDHEF90dFYifQ',
       ),
     ).toEqual({ sub: 123 });
   });

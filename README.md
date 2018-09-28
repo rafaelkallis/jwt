@@ -28,7 +28,7 @@ Verifies the given JWT and returns the decoded payload.
 Rejects if the signature is invalid.
 
 ```js
-const payload = await jwt.verifySignature(token);
+const payload = await jwt.verify(token);
 ```
 
 
