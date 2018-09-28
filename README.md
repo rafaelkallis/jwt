@@ -2,14 +2,14 @@
 
 
 ```sh
-npm install --save @rk/jwt
+npm install --save @rafaelkallis/jwt
 ```
 
 
 #### Import & Initialization
 
 ```js
-const JWT = require('@rk/jwt');
+const JWT = require('@rafaelkallis/jwt');
 
 // secret must be at least 32 charactes long
 const jwt = new JWT('secret');

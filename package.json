@@ -1,5 +1,5 @@
 {
-  "name": "@rk/jwt",
+  "name": "@rafaelkallis/jwt",
   "version": "1.0.0",
   "description": "json web tokens you can trust",
   "author": "Rafael Kallis <rk@rafaelkallis.com>",
